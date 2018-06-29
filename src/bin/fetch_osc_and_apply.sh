@@ -19,7 +19,7 @@
 
 if [[ -z $1  ]]; then
 {
-  echo "Usage: $0 diff_url --meta=(yes|no|attic)"
+  echo "Usage: $0 diff_url --meta=(yes|no|attic) [sleep]"
   echo "Error : Set the URL to get diffs from (like https://planet.osm.org/replication/minute )"
   exit 0
 };
@@ -49,6 +49,7 @@ else
   exit 0
 }; fi
 
+SLEEP_BETWEEN_DLS=${3:-15} # How long to sleep between download attempts (sec). Default: 15.
 
 get_replicate_filename()
 {
@@ -152,7 +153,7 @@ while [[ true ]]; do
   };
   else
   {
-    sleep 10
+    sleep $SLEEP_BETWEEN_DLS
   }; fi
 
   rm -f $TEMP_TARGET_DIR/*
